@@ -158,7 +158,7 @@ const editProfile = async (req, res) => {
         }
         if (bio) user.bio = bio;
         if (gender) user.gender = gender;
-        if (profilePicture) user.profilepicture = cloudResponse.secure_url; 
+        if (profilePicture) user.profilepicture = cloudResponse.secure_url;
 
         await user.save();
 
@@ -201,8 +201,8 @@ const getSuggestedUsers = async (req, res) => {
 }
 // follw and unfollow
 const followOrUnfollow = async (req, res) => {
-    const followUserId = req.id; 
-    const targetUserId = req.params.id; 
+    const followUserId = req.id;
+    const targetUserId = req.params.id;
     try {
         if (followUserId === targetUserId) {
             return res.status(400).json({
@@ -215,7 +215,7 @@ const followOrUnfollow = async (req, res) => {
         const targetUser = await UserModel.findById(targetUserId);
 
         if (!user || !targetUser) {
-            return res.status(404).json({ 
+            return res.status(404).json({
                 message: 'User not found',
                 success: false
             });
@@ -239,7 +239,7 @@ const followOrUnfollow = async (req, res) => {
         }
     } catch (error) {
         console.log(error);
-        return res.status(500).json({ 
+        return res.status(500).json({
             message: "Internal Server Error",
             success: false
         });
