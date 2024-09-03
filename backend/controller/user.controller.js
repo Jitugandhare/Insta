@@ -137,31 +137,28 @@ const getProfile = async (req, res) => {
 }
 
 // Edit profile
-
 const editProfile = async (req, res) => {
     try {
         const userId = req.id;
         const { bio, gender } = req.body;
         const profilePicture = req.file;
         let cloudResponse;
-        console.log(userId)
 
         if (profilePicture) {
             const fileUri = getDataUri(profilePicture);
             cloudResponse = await cloudinary.uploader.upload(fileUri);
         }
 
-        const user = await UserModel.findById(userId).select("-password");
+        const user = await UserModel.findById(userId).select('-password');
         if (!user) {
             return res.status(404).json({
                 message: 'User not found.',
                 success: false
             });
         }
-
         if (bio) user.bio = bio;
         if (gender) user.gender = gender;
-        if (profilePicture) user.profilePicture = cloudResponse.secure_url;
+        if (profilePicture) user.profilepicture = cloudResponse.secure_url; 
 
         await user.save();
 
@@ -170,12 +167,14 @@ const editProfile = async (req, res) => {
             success: true,
             user
         });
-
     } catch (error) {
         console.log(error);
+        return res.status(500).json({
+            message: "Internal Server Error",
+            success: false
+        });
     }
 };
-
 
 
 // get suggested other users
@@ -200,66 +199,53 @@ const getSuggestedUsers = async (req, res) => {
     }
 
 }
-
+// follw and unfollow
 const followOrUnfollow = async (req, res) => {
+    const followUserId = req.id; 
+    const targetUserId = req.params.id; 
     try {
-        const followkrnewala = req.id;
-        const jiskofollowkrnahain = req.params.id;
-        console.log(followkrnewala);
-        console.log(jiskofollowkrnahain);
-
-        if (followkrnewala === jiskofollowkrnahain) {
+        if (followUserId === targetUserId) {
             return res.status(400).json({
-                message: "You can't follow yourself",
+                message: 'You cannot follow/unfollow yourself',
                 success: false
             });
         }
 
-        const user = await UserModel.findById(followkrnewala);
-        const targetUser = await UserModel.findById(jiskofollowkrnahain);
+        const user = await UserModel.findById(followUserId);
+        const targetUser = await UserModel.findById(targetUserId);
 
         if (!user || !targetUser) {
-            return res.status(404).json({
-                message: "User not found",
+            return res.status(404).json({ 
+                message: 'User not found',
                 success: false
             });
         }
 
-        const isFollowing = user.following.includes(jiskofollowkrnahain);
-
+        const isFollowing = user.following.includes(targetUserId);
         if (isFollowing) {
-            // Unfollow
+            // Unfollow logic 
             await Promise.all([
-                UserModel.updateOne({ _id: followkrnewala }, { $pull: { following: jiskofollowkrnahain } }),
-                UserModel.updateOne({ _id: jiskofollowkrnahain }, { $pull: { followers: followkrnewala } })
+                UserModel.updateOne({ _id: followUserId }, { $pull: { following: targetUserId } }),
+                UserModel.updateOne({ _id: targetUserId }, { $pull: { followers: followUserId } }),
             ]);
-
-            return res.status(200).json({
-                message: "Successfully unfollowed the user",
-                success: true
-            });
-
+            return res.status(200).json({ message: 'Unfollowed successfully', success: true });
         } else {
-            // Follow
+            // Follow logic 
             await Promise.all([
-                UserModel.updateOne({ _id: followkrnewala }, { $push: { following: jiskofollowkrnahain } }),
-                UserModel.updateOne({ _id: jiskofollowkrnahain }, { $push: { followers: followkrnewala } })
+                UserModel.updateOne({ _id: followUserId }, { $push: { following: targetUserId } }),
+                UserModel.updateOne({ _id: targetUserId }, { $push: { followers: followUserId } }),
             ]);
-
-            return res.status(200).json({
-                message: "Successfully followed the user",
-                success: true
-            });
+            return res.status(200).json({ message: 'Followed successfully', success: true });
         }
-
-    } catch (err) {
-        console.error(err);
-        return res.status(500).json({
-            message: "An error occurred while processing your request",
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ 
+            message: "Internal Server Error",
             success: false
         });
     }
-}
+};
+
 
 
 
