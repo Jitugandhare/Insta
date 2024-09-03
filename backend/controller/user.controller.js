@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
-const UserModel = require("../model/user.model")
+const UserModel = require("../model/user.model.js")
 const getDataUri = require("../utils/datauri");
 const cloudinary = require("../utils/cloudinary")
 
@@ -144,38 +144,38 @@ const editProfile = async (req, res) => {
         const { bio, gender } = req.body;
         const profilePicture = req.file;
         let cloudResponse;
+        console.log(userId)
 
         if (profilePicture) {
             const fileUri = getDataUri(profilePicture);
             cloudResponse = await cloudinary.uploader.upload(fileUri);
-
-
         }
-        const user = await UserModel.findById(userId)
+
+        const user = await UserModel.findById(userId).select("-password");
         if (!user) {
             return res.status(404).json({
-                message: "User not found",
+                message: 'User not found.',
                 success: false
-            })
+            });
         }
-        if (bio) bio = user.bio;
-        if (gender) gender = user.gender;
-        if (profilePicture) profilePicture = cloudResponse.secure_url;
+
+        if (bio) user.bio = bio;
+        if (gender) user.gender = gender;
+        if (profilePicture) user.profilePicture = cloudResponse.secure_url;
 
         await user.save();
+
         return res.status(200).json({
-            message: "Profile updated",
+            message: 'Profile updated.',
             success: true,
             user
-        })
+        });
 
-
-
-
-    } catch (err) {
-        console.log(err)
+    } catch (error) {
+        console.log(error);
     }
-}
+};
+
 
 
 // get suggested other users
@@ -190,7 +190,7 @@ const getSuggestedUsers = async (req, res) => {
             })
         }
         return res.status(200).json({
-            message: "",
+            message: "suggested user",
             success: true,
             user: suggestedUsers
         })
@@ -205,6 +205,8 @@ const followOrUnfollow = async (req, res) => {
     try {
         const followkrnewala = req.id;
         const jiskofollowkrnahain = req.params.id;
+        console.log(followkrnewala);
+        console.log(jiskofollowkrnahain);
 
         if (followkrnewala === jiskofollowkrnahain) {
             return res.status(400).json({
@@ -272,5 +274,5 @@ const followOrUnfollow = async (req, res) => {
 
 module.exports = {
     register,
-    login, logout, getProfile, editProfile, getSuggestedUsers,followOrUnfollow
+    login, logout, getProfile, editProfile, getSuggestedUsers, followOrUnfollow
 }
