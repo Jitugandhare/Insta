@@ -14,4 +14,4 @@ userRoute.post("/profile/edit", isAuthenticated, upload.single("profilePicture")
 userRoute.get("/suggested", isAuthenticated, getSuggestedUsers);
 userRoute.post("/followersorunfollow/:id", isAuthenticated, followOrUnfollow);
 
-module.exports = { userRoute }; 
+module.exports =  userRoute ; 

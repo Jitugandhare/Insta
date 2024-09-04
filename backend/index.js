@@ -2,7 +2,10 @@ const express = require("express");
 const connection = require("./utils/db");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-const {userRoute} = require("./routes/user.route"); 
+const userRoute = require("./routes/user.route.js"); 
+const postRoute=require("./routes/post.route.js");
+const messageRoute=require("./routes/message.route.js")
+
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -28,6 +31,9 @@ app.get("/", (req, res) => {
 
 // Use user routes
 app.use("/user", userRoute);
+app.use("/post", postRoute);
+app.use("/message", messageRoute);
+
 
 app.listen(8080, async () => {
     try {

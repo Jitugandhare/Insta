@@ -6,7 +6,7 @@ const conversationSchema=new mongoose.Schema({
     }],
 
     messages:[{
-        typw:mongoose.Schema.Types.ObjectId,
+        type:mongoose.Schema.Types.ObjectId,
         ref:"Message"
     }]
 })
