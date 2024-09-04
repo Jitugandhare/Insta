@@ -1,8 +1,10 @@
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const UserModel = require("../model/user.model.js")
-const getDataUri = require("../utils/datauri");
-const cloudinary = require("../utils/cloudinary")
+const getDataUri = require("../utils/datauri.js");
+const cloudinary = require("../utils/cloudinary.js")
+
+const PostModel = require("../model/post.model.js");
 
 const register = async (req, res) => {
     try {
@@ -78,6 +80,16 @@ const login = async (req, res) => {
             })
 
         }
+        const populatedPosts=await Promise.all(
+            user.posts.map(async (postId)=>{
+                const post = await PostModel.findById(postId)
+                if(post.author.equals(user._id)){
+                    return post;
+                }
+                return null;
+
+            })
+        )
 
         user = {
             _id: user.id,
@@ -87,7 +99,7 @@ const login = async (req, res) => {
             bio: user.bio,
             followers: user.followers,
             following: user.following,
-            posts: user.posts
+            posts:populatedPosts
         }
 
 
