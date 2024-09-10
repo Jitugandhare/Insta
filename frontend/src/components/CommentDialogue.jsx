@@ -53,11 +53,11 @@ const CommentDialogue = ({ open, setOpen }) => {
                         <div className='flex-1 overflow-y-auto max-h-96 p-4'>
                             comments aayenge
                         </div>
-                        <div className='p-4 flex'>
+                        <div className='p-4 flex items-center gap-2'>
                             <input
                                 type="text"
                                 placeholder='Add comments'
-                                className='w-full outline-none borfder border-gray-300 p-2 rounded'
+                                className='w-full outline-none border border-gray-300 p-2 rounded'
                             />
                             <Button variant="outline" className="bg-blue-500 text-white hover:bg-blue-700 border-blue-500 rounded-full">
                                 <ArrowUp />
