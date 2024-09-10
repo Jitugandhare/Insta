@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Dialog, DialogContent, DialogTrigger } from './ui/dialog'
 import { Bookmark, MessageCircle, MoreHorizontal, Send } from 'lucide-react'
@@ -6,6 +6,20 @@ import { Button } from './ui/button'
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import CommentDialogue from './CommentDialogue'
 const Post = () => {
+
+  const [text, setText] = useState("");
+
+  const changeEventHandler = (e) => {
+    const inputText = e.target.value;
+    if (inputText.trim()) {
+      setText(inputText)
+    } else {
+      setText("")
+    }
+  }
+
+
+
   return (
     <div className='my-8 w-full max-w-sm mx-auto'>
       <div className='flex items-center justify-between'>
@@ -48,12 +62,19 @@ const Post = () => {
         caption
       </p>
       <span>View all 10 comments</span>
-      <CommentDialogue/>
-      <div className='flex'>
-        <input type="text" 
-        placeholder='Add a comment...'
-        className='outline-none text-sm w-full' />
-        <span className='text-[#259eee] font-bold' >Post</span>
+      <CommentDialogue />
+      <div className='flex items-center justify-between'>
+        <input
+          type="text"
+          placeholder='Add a comment...'
+          value={text}
+          onChange={changeEventHandler}
+          className='outline-none text-sm w-full'
+        />
+        {
+          text && <span className='text-[#259eee] font-bold' >Post</span>
+        }
+
       </div>
     </div>
 
