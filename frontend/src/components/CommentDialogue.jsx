@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Dialog, DialogClose, DialogContent, DialogTrigger } from './ui/dialog'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Link } from 'react-router-dom'
@@ -7,6 +7,23 @@ import { Button } from './ui/button'
 
 const CommentDialogue = ({ open, setOpen }) => {
 
+const [text,setText]=useState("");
+
+
+const changeEventHandler=(e)=>{
+    const inputText=e.target.value;
+    if(inputText.trim()){
+        setText(inputText)
+    }else{
+        setText("");
+    }
+}
+
+const sendMessageHandler=async(e)=>{
+    // e.preventDefault()
+    alert(text)
+
+}
     return (
         <Dialog open={open}>
             <DialogContent onInteractOutside={() => setOpen(false)} className="max-w6xl p-0 flex flex-col" >
@@ -57,9 +74,11 @@ const CommentDialogue = ({ open, setOpen }) => {
                             <input
                                 type="text"
                                 placeholder='Add comments'
+                                value={text}
+                                onChange={changeEventHandler}
                                 className='w-full outline-none border border-gray-300 p-2 rounded'
                             />
-                            <Button variant="outline" className="bg-blue-500 text-white hover:bg-blue-700 border-blue-500 rounded-full">
+                            <Button disabled={!text.trim()} variant="outline" onClick={sendMessageHandler} className="bg-blue-500 text-white hover:bg-blue-700 border-blue-500 rounded-full">
                                 <ArrowUp />
                             </Button>
 
