@@ -6,6 +6,9 @@ import { Button } from './ui/button'
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import CommentDialogue from './CommentDialogue'
 import { useSelector } from 'react-redux'
+
+import { toast } from 'sonner'
+import axios from 'axios'
 const Post = ({ post }) => {
 
   const [text, setText] = useState("");
@@ -21,6 +24,17 @@ const Post = ({ post }) => {
     }
   }
 
+  const deletePostHandler=async()=>{
+    try {
+      const res = await axios.delete(`http://localhost:8080/post/delete/${post._id}`, { withCredentials: true });
+      if (res.data.success) {
+        toast.success(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast(error.response.data.message);
+    }
+  }
 
 
   return (
@@ -41,7 +55,7 @@ const Post = ({ post }) => {
             <Button variant="ghost" className="cursor-pointer w-fit text-[#ED4957]  font-bold">Unfollow</Button>
             <Button variant="ghost" className="cursor-pointer w-fit   ">Add to favoutites</Button>
             {
-              user && user?._id === post?.author._id && <Button variant="ghost" className="cursor-pointer w-fit  ">Delete</Button>
+              user && user?._id === post?.author._id && <Button variant="ghost" className="cursor-pointer w-fit" onClick={deletePostHandler}>Delete</Button>
             }
           </DialogContent>
         </Dialog>

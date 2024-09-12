@@ -11,7 +11,7 @@ postRouter.get("/:id/like",isAuthenticated,likePost);
 postRouter.get("/:id/dislike",isAuthenticated,dislikePost);
 postRouter.post("/:id/comment",isAuthenticated,addComment);
 postRouter.post("/:id/commet/all",isAuthenticated,getCommentsOfPost);
-postRouter.post("/delete/:id",isAuthenticated,deletePost);
+postRouter.delete("/delete/:id",isAuthenticated,deletePost);
 postRouter.post("/:id/bookmark",isAuthenticated,bookmarkPost);
 
 
