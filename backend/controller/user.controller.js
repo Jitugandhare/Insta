@@ -1,10 +1,10 @@
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
-const UserModel = require("../model/user.model.js")
+const User = require("../model/user.model.js")
 const getDataUri = require("../utils/datauri.js");
 const cloudinary = require("../utils/cloudinary.js")
 
-const PostModel = require("../model/post.model.js");
+const Post = require("../model/post.model.js");
 
 const register = async (req, res) => {
     try {
@@ -16,7 +16,7 @@ const register = async (req, res) => {
             });
         }
 
-        const user = await UserModel.findOne({ email })
+        const user = await User.findOne({ email })
         if (user) {
             return res.status(401).json({
                 message: "Email is already exist",
@@ -25,7 +25,7 @@ const register = async (req, res) => {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10)
-        await UserModel.create({
+        await User.create({
             username,
             email,
             password: hashedPassword
@@ -62,7 +62,7 @@ const login = async (req, res) => {
         //     })
         // }
 
-        let user = await UserModel.findOne({ email });
+        let user = await User.findOne({ email });
 
 
         if (!user) {
@@ -80,10 +80,11 @@ const login = async (req, res) => {
             })
 
         }
-        const populatedPosts=await Promise.all(
-            user.posts.map(async (postId)=>{
-                const post = await PostModel.findById(postId)
-                if(post.author.equals(user._id)){
+        const token = await jwt.sign({ userId: user._id }, process.env.SECRET_KEY, { expiresIn: '1d' });
+        const populatedPosts = await Promise.all(
+            user.posts.map(async (postId) => {
+                const post = await Post.findById(postId)
+                if (post.author.equals(user._id)) {
                     return post;
                 }
                 return null;
@@ -99,11 +100,11 @@ const login = async (req, res) => {
             bio: user.bio,
             followers: user.followers,
             following: user.following,
-            posts:populatedPosts
+            posts: populatedPosts
         }
 
 
-        const token = await jwt.sign({ userId: user.id }, process.env.SECRET_KEY, { expiresIn: "1d" })
+        
         return res.cookie("token", token, { httpOnly: true, sameSite: 'strict', maxAge: 1 * 24 * 60 * 60 * 1000 }).json({
             message: `Welcome back ${user.username}`,
             success: true,
@@ -137,7 +138,7 @@ const getProfile = async (req, res) => {
 
     try {
         const userId = req.params.id;
-        let user = await UserModel.findById(userId).select("-password");
+        let user = await User.findById(userId).select("-password");
         return res.status(200).json({
             user,
             success: true,
@@ -161,7 +162,7 @@ const editProfile = async (req, res) => {
             cloudResponse = await cloudinary.uploader.upload(fileUri);
         }
 
-        const user = await UserModel.findById(userId).select('-password');
+        const user = await User.findById(userId).select('-password');
         if (!user) {
             return res.status(404).json({
                 message: 'User not found.',
@@ -188,13 +189,12 @@ const editProfile = async (req, res) => {
     }
 };
 
-
 // get suggested other users
 
 const getSuggestedUsers = async (req, res) => {
 
     try {
-        const suggestedUsers = await UserModel.find({ _id: { $ne: req.id } }).select("-password")
+        const suggestedUsers = await User.find({ _id: { $ne: req.id } }).select("-password")
         if (!suggestedUsers) {
             return res.status(400).json({
                 message: "curretly do not have any user",
@@ -223,8 +223,8 @@ const followOrUnfollow = async (req, res) => {
             });
         }
 
-        const user = await UserModel.findById(followUserId);
-        const targetUser = await UserModel.findById(targetUserId);
+        const user = await User.findById(followUserId);
+        const targetUser = await User.findById(targetUserId);
 
         if (!user || !targetUser) {
             return res.status(404).json({
@@ -237,15 +237,15 @@ const followOrUnfollow = async (req, res) => {
         if (isFollowing) {
             // Unfollow logic 
             await Promise.all([
-                UserModel.updateOne({ _id: followUserId }, { $pull: { following: targetUserId } }),
-                UserModel.updateOne({ _id: targetUserId }, { $pull: { followers: followUserId } }),
+                User.updateOne({ _id: followUserId }, { $pull: { following: targetUserId } }),
+                User.updateOne({ _id: targetUserId }, { $pull: { followers: followUserId } }),
             ]);
             return res.status(200).json({ message: 'Unfollowed successfully', success: true });
         } else {
             // Follow logic 
             await Promise.all([
-                UserModel.updateOne({ _id: followUserId }, { $push: { following: targetUserId } }),
-                UserModel.updateOne({ _id: targetUserId }, { $push: { followers: followUserId } }),
+                User.updateOne({ _id: followUserId }, { $push: { following: targetUserId } }),
+                User.updateOne({ _id: targetUserId }, { $push: { followers: followUserId } }),
             ]);
             return res.status(200).json({ message: 'Followed successfully', success: true });
         }

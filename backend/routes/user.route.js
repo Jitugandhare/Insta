@@ -1,8 +1,8 @@
 const express = require("express");
 const userRoute = express.Router();
-const { register, login, getProfile, logout, editProfile, getSuggestedUsers, followOrUnfollow } = require("../controller/user.controller");
-const isAuthenticated = require("../middleware/isAuthenticated")
-const upload = require("../middleware/multer")
+const { register, login, getProfile, logout, editProfile, getSuggestedUsers, followOrUnfollow } = require("../controller/user.controller.js");
+const isAuthenticated = require("../middleware/isAuthenticated.js")
+const upload = require("../middleware/multer.js")
 
 // Define routes
 userRoute.post("/register", register);

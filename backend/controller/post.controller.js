@@ -1,9 +1,9 @@
 const express = require("express");
 const sharp = require('sharp');
-const cloudinary = require('../utils/cloudinary');
-const Post = require("../model/post.model");
-const User = require("../model/user.model");
-const Comment=require("../model/comment.model");
+const cloudinary = require('../utils/cloudinary.js');
+const Post = require("../model/post.model.js");
+const User = require("../model/user.model.js");
+const Comment=require("../model/comment.model.js");
 
 const addNewPost = async (req, res) => {
     try {
@@ -58,13 +58,13 @@ const getAllPost = async (req, res) => {
     try {
         const posts = await Post.find()
             .sort({ createdAt: -1 })
-            .populate({ path: 'author', select: 'username, profilePicture' })
+            .populate({ path: 'author', select: 'username profilePicture' })
             .populate({
                 path: 'comments',
                 sort: { createdAt: -1 },
                 populate: {
                     path: 'author',
-                    select: 'username, profilePicture'
+                    select: 'username profilePicture'
                 }
             });
 

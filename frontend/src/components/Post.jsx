@@ -5,7 +5,7 @@ import { Bookmark, MessageCircle, MoreHorizontal, Send } from 'lucide-react'
 import { Button } from './ui/button'
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import CommentDialogue from './CommentDialogue'
-const Post = () => {
+const Post = ({post}) => {
 
   const [text, setText] = useState("");
   const [open,setOpen]=useState(false);
@@ -44,7 +44,7 @@ const Post = () => {
       </div>
       <img className='rounded-sm my-2 w-full aspect-square object-cover'
 
-        src="https://feeds.abplive.com/onecms/images/uploaded-images/2022/09/26/5b4bff5a351f4c651461745787d076a81664166935443145_original.jpg"
+        src={post.image}
         alt="post_image" />
 
 
@@ -60,7 +60,7 @@ const Post = () => {
       block mb-2'>1k likes</span>
       <p>
         <span className='font-medium mr-2'>username</span>
-        caption
+        {post.caption}
       </p>
       <span onClick={()=>setOpen(true)} className='cursor-pointer text-sm text-gray-500' >View all 10 comments</span>
       <CommentDialogue open={open} setOpen={setOpen} />

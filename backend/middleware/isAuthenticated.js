@@ -1,43 +1,25 @@
-const jwt = require("jsonwebtoken");
-
-const isAuthenticated = async (req, res, next) => {
+const jwt=require("jsonwebtoken")
+const isAuthenticated = async (req,res,next)=>{
     try {
         const token = req.cookies.token;
-        
-        if (!token) {
+        if(!token){
             return res.status(401).json({
-                message: "User is not authenticated",
-                success: false
+                message:'User not authenticated',
+                success:false
             });
         }
-
-        jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
-            if (err) {
-                console.error("Token verification error:", err);
-                return res.status(401).json({
-                    message: "Invalid token",
-                    success: false
-                });
-            }
-
-            if (decoded) {
-                req.id = decoded.userId; 
-                next();
-            } else {
-                console.log("Invalid token: userId not found");
-                return res.status(401).json({
-                    message: "Invalid token: userId not found",
-                    success: false
-                });
-            }
-        });
+        const decode = await jwt.verify(token, process.env.SECRET_KEY);
+        if(!decode){
+            return res.status(401).json({
+                message:'Invalid',
+                success:false
+            });
+        }
+        req.id = decode.userId;
+        next();
     } catch (error) {
-        console.error("Internal Server Error:", error);
-        return res.status(500).json({
-            message: "Internal Server Error",
-            success: false
-        });
+        console.log(error);
     }
-};
+}
 
-module.exports = isAuthenticated;
+module.exports=isAuthenticated;
