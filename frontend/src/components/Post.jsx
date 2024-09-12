@@ -26,10 +26,10 @@ const Post = ({post}) => {
       <div className='flex items-center justify-between'>
         <div className='flex items-center gap-2'>
           <Avatar>
-            <AvatarImage src="" alt="post_image" />
+            <AvatarImage src={post.author?.profilePicture} alt="post_image" />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
-          <h1>username</h1>
+          <h1>{post.author?.username}</h1>
         </div>
         <Dialog >
           <DialogTrigger asChild>
@@ -57,9 +57,9 @@ const Post = ({post}) => {
         <Bookmark className='cursor-pointer hover text-gray-600' />
       </div>
       <span className='font-medium
-      block mb-2'>1k likes</span>
+      block mb-2'>{post.likes.length} likes</span>
       <p>
-        <span className='font-medium mr-2'>username</span>
+        <span className='font-medium mr-2'>{post.author?.username}</span>
         {post.caption}
       </p>
       <span onClick={()=>setOpen(true)} className='cursor-pointer text-sm text-gray-500' >View all 10 comments</span>
