@@ -197,7 +197,7 @@ const getSuggestedUsers = async (req, res) => {
         const suggestedUsers = await User.find({ _id: { $ne: req.id } }).select("-password")
         if (!suggestedUsers) {
             return res.status(400).json({
-                message: "curretly do not have any user",
+                message: "currently do not have any user",
             })
         }
         return res.status(200).json({

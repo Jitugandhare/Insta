@@ -10,6 +10,7 @@ const addNewPost = async (req, res) => {
         const { caption } = req.body;
         const image = req.file;
         const authorId = req.id;
+       
 
         if (!image) {
             return res.status(400).json({
@@ -17,7 +18,7 @@ const addNewPost = async (req, res) => {
             });
         }
 
-        // Image processing and uploading...
+        
         const optimizedImageBuffer = await sharp(image.buffer)
             .resize({ width: 800, height: 800, fit: 'inside' })
             .toFormat('jpeg', { quality: 80 })
@@ -42,8 +43,8 @@ const addNewPost = async (req, res) => {
 
         return res.status(201).json({
             message: "New post added",
+            post,
             success: true,
-            post
         });
     } catch (err) {
         console.log(err);
@@ -53,6 +54,7 @@ const addNewPost = async (req, res) => {
         });
     }
 };
+
 
 const getAllPost = async (req, res) => {
     try {
@@ -87,13 +89,13 @@ const getUserPost = async (req, res) => {
         const authorId = req.id;
         const posts = await Post.find({ author: authorId }).sort({ createdAt: -1 }).populate({
             path: 'author',
-            select: 'username, profilePicture'
+            select: 'username profilePicture'
         }).populate({
             path: 'comments',
             sort: { createdAt: -1 },
             populate: {
                 path: 'author',
-                select: 'username, profilePicture'
+                select: 'username profilePicture'
             }
         })
         return res.status(200).json({
@@ -181,9 +183,11 @@ const addComment = async (req, res) => {
         text,
         author: commentKrneWalaUserKiId,
         post: postId
-      }).populate({
+      })
+
+      await comment.populate({
         path: 'author',
-        select: "username, profilePicture"
+        select: "username profilePicture"
       });
   
       post.comments.push(comment._id);
@@ -201,6 +205,7 @@ const addComment = async (req, res) => {
 const getCommentsOfPost=async(req,res)=>{
     try{
         const postId=req.params.id;
+        
         const comments=await Comment.find({post:postId}).populate('author','username,profilePicture')
         if(!comments){
             return res.status(404).json({
