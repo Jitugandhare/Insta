@@ -48,6 +48,7 @@ const login = async (req, res) => {
 
     try {
         const { email, password } = req.body;
+        const authorId = req.id;
         if (!email || !password) {
             return res.status(401).json({
                 message: "Something went wrong",
@@ -84,13 +85,13 @@ const login = async (req, res) => {
         const populatedPosts = await Promise.all(
             user.posts.map(async (postId) => {
                 const post = await Post.findById(postId)
-                if (post.author.equals(user._id)) {
+                if (post && post.author.equals(user._id)) {
                     return post;
                 }
                 return null;
 
             })
-        )
+        ).then(posts => posts.filter(post => post !== null));
 
         user = {
             _id: user.id,

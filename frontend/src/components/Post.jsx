@@ -5,10 +5,12 @@ import { Bookmark, MessageCircle, MoreHorizontal, Send } from 'lucide-react'
 import { Button } from './ui/button'
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import CommentDialogue from './CommentDialogue'
-const Post = ({post}) => {
+import { useSelector } from 'react-redux'
+const Post = ({ post }) => {
 
   const [text, setText] = useState("");
-  const [open,setOpen]=useState(false);
+  const [open, setOpen] = useState(false);
+  const { user } = useSelector(store => store.auth)
 
   const changeEventHandler = (e) => {
     const inputText = e.target.value;
@@ -38,7 +40,9 @@ const Post = ({post}) => {
           <DialogContent className="flex flex-col items-center text-sm text-center" >
             <Button variant="ghost" className="cursor-pointer w-fit text-[#ED4957]  font-bold">Unfollow</Button>
             <Button variant="ghost" className="cursor-pointer w-fit   ">Add to favoutites</Button>
-            <Button variant="ghost" className="cursor-pointer w-fit  ">Delete</Button>
+            {
+              user && user?._id === post?.author._id && <Button variant="ghost" className="cursor-pointer w-fit  ">Delete</Button>
+            }
           </DialogContent>
         </Dialog>
       </div>
@@ -51,7 +55,7 @@ const Post = ({post}) => {
       <div className='flex items-center justify-between my-2'>
         <div className='flex items-center gap-3'>
           <FaRegHeart size={'25px'} className='cursor-pointer' />
-          <MessageCircle onClick={()=>setOpen(true)} className='cursor-pointer hover:text-gray-600' />
+          <MessageCircle onClick={() => setOpen(true)} className='cursor-pointer hover:text-gray-600' />
           <Send className='cursor-pointer hover:text-gray-600' />
         </div>
         <Bookmark className='cursor-pointer hover text-gray-600' />
@@ -62,7 +66,7 @@ const Post = ({post}) => {
         <span className='font-medium mr-2'>{post.author?.username}</span>
         {post.caption}
       </p>
-      <span onClick={()=>setOpen(true)} className='cursor-pointer text-sm text-gray-500' >View all 10 comments</span>
+      <span onClick={() => setOpen(true)} className='cursor-pointer text-sm text-gray-500' >View all 10 comments</span>
       <CommentDialogue open={open} setOpen={setOpen} />
       <div className='flex items-center justify-between'>
         <input
