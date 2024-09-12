@@ -4,18 +4,39 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Textarea } from './ui/textarea';
 import { Button } from './ui/button';
 import { readFileAsDataURL } from '@/lib/utils';
+import { Loader2 } from 'lucide-react';
+import { toast } from 'sonner';
+import axios from 'axios';
 
 const CreatePost = ({ open, setOpen }) => {
     const imageRef = useRef();
+    const [loading, setLoading] = useState(false)
     const [file, setFile] = useState("");
     const [caption, setCaption] = useState("");
     const [imagePreview, setImagePreview] = useState("")
     const createPostHandler = async (e) => {
-        e.preventDefault();
-        try {
+        const formData = new FormData();
+        formData.append("caption", caption);
+        if (imagePreview) {
+            formData.append("image", file)
+        }
 
+        try {
+            setLoading(true)
+            const res = await axios.post("http://localhost:8080/post/addpost", formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                },
+                withCredentials: true
+            });
+
+            if (res.data.success) {
+                toast.success(res.data.message)
+            }
         } catch (error) {
-            console.log(error);
+            toast.error(error.response.data.message)
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -45,18 +66,24 @@ const CreatePost = ({ open, setOpen }) => {
                     </div>
 
                 </div>
-                <Textarea className="focus-visible:ring-transparent border-none" placeholder="Write caption..." />
+                <Textarea value={caption} onChange={(e) => setCaption(e.target.value)} className="focus-visible:ring-transparent border-none" placeholder="Write caption..." />
                 {
                     imagePreview && (
                         <div className='w-full h-64 items justify-center'>
-                            <img src={imagePreview} alt="image_preview" className='object-cover h-full w-full'  />
+                            <img src={imagePreview} alt="image_preview" className='object-cover h-full w-full' />
                         </div>
                     )
                 }
 
                 <input ref={imageRef} onChange={fileHandler} type="file" className='hidden' />
                 <Button onClick={() => imageRef.current.click()} className="w-fit mx-auto bg-[#1274b6] hover:bg-[#023658]">Select from device</Button>
-
+                {
+                    imagePreview && (
+                        loading ? (<Button>
+                            <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+                        </Button>) : (<Button onClick={createPostHandler} type="submit" className="mt-4 w-full bg-blue-500 text-white">Post</Button>)
+                    )
+                }
             </DialogContent>
         </Dialog>
     );
