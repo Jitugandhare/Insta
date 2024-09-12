@@ -1,5 +1,5 @@
 import { Heart, Home, icons, LogOut, MessageCircle, PlusSquare, Search, TrendingUp } from 'lucide-react'
-import React from 'react'
+import React, { useState } from 'react'
 import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar'
 import { toast } from 'sonner'
 import { useNavigate } from 'react-router-dom'
@@ -7,6 +7,7 @@ import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 import store from '@/redux/store'
 import { setAuthUser } from '@/redux/authSlice'
+import CreatePost from './CreatePost'
 
 
 
@@ -15,7 +16,8 @@ import { setAuthUser } from '@/redux/authSlice'
 const Sidebar = () => {
     const navigate = useNavigate();
     const { user } = useSelector(store => store.auth)
-    const dispatch=useDispatch();
+    const [open, setOpen] = useState(false);
+    const dispatch = useDispatch();
 
 
     const logOutHandler = async () => {
@@ -34,8 +36,23 @@ const Sidebar = () => {
     }
 
 
+    const createPostHandler = () => {
+        setOpen(true)
+    }
+
+
+
+
+
+
+
+
     const sideBarHandler = (textType) => {
-        if (textType === "Logout") logOutHandler();
+        if (textType === "Logout") {
+            logOutHandler();
+        } else if (textType === "Create") {
+            createPostHandler();
+        }
 
     }
     const sideBarItems = [
@@ -78,6 +95,7 @@ const Sidebar = () => {
                     }
                 </div>
             </div>
+            <CreatePost open={open} setOpen={setOpen} />
         </div>
     )
 }
