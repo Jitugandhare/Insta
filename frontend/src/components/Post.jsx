@@ -93,7 +93,7 @@ const Post = ({ post }) => {
       );
 
       if (res.data.success) {
-        const updatedComment = [...comment, res.data.message];
+        const updatedComment = [...comment, res.data.comment];
         setComment(updatedComment);
 
         const updatedCommentdata = posts.map(p =>

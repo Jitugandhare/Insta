@@ -4,29 +4,57 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Link } from 'react-router-dom'
 import { ArrowUp, MoreHorizontal } from 'lucide-react'
 import { Button } from './ui/button'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Comment from './Comment'
+import axios from 'axios'
+import { toast } from 'sonner'
+import { setPosts } from '@/redux/postSlice'
 
 const CommentDialogue = ({ open, setOpen }) => {
 
     const [text, setText] = useState("");
-    const { selectedPost } = useSelector(store => store.post)
-
+    const { selectedPost, posts } = useSelector(store => store.post);
+    const dispatch = useDispatch();
 
     const changeEventHandler = (e) => {
         const inputText = e.target.value;
-        if (inputText.trim()) {
-            setText(inputText)
-        } else {
-            setText("");
+        setText(inputText.trim() ? inputText : "");
+    };
+
+    const sendMessageHandler = async () => {
+        try {
+            const res = await axios.post(
+                `http://localhost:8080/post/${selectedPost._id}/comment`,
+                { text },
+                {
+                    headers: {
+                        'Content-Type': "application/json",
+                    },
+                    withCredentials: true,
+                }
+            );
+
+            if (res.data.success) {
+                const updatedComment = [...selectedPost.comments, res.data.comment];
+                const updatedCommentData = posts.map(p =>
+                    p._id === selectedPost._id ? { ...p, comments: updatedComment } : p
+                );
+
+                dispatch(setPosts(updatedCommentData));
+
+                toast.success(res.data.message);
+                setText("");
+            }
+        } catch (error) {
+            console.log(error);
+
+            if (error.response && error.response.data && error.response.data.message) {
+                toast.error(error.response.data.message);
+            } else {
+                toast.error('An error occurred');
+            }
         }
-    }
-
-    const sendMessageHandler = async (e) => {
-        // e.preventDefault()
-
-
-    }
+    };
     return (
         <Dialog open={open}>
             <DialogContent onInteractOutside={() => setOpen(false)} className="max-w6xl p-0 flex flex-col" >
@@ -73,10 +101,10 @@ const CommentDialogue = ({ open, setOpen }) => {
                         <div className='flex-1 overflow-y-auto max-h-96 p-4'>
                             {selectedPost?.comments?.length > 0 ? (
                                 selectedPost.comments.map((com) => (
-                                    <Comment key={com._id} com={com} /> 
+                                    <Comment key={com._id} com={com} />
                                 ))
                             ) : (
-                                <p>No comments available</p> 
+                                <p>No comments available</p>
                             )}
                         </div>
                         <div className='p-4 flex items-center gap-2'>
