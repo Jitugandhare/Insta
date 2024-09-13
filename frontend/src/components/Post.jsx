@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { toast } from 'sonner'
 import axios from 'axios'
-import { setPosts } from '@/redux/postSlice'
+import { setPosts, setSelectedPosts } from '@/redux/postSlice'
 const Post = ({ post }) => {
 
   const [text, setText] = useState("");
@@ -102,8 +102,9 @@ const Post = ({ post }) => {
 
         dispatch(setPosts(updatedCommentdata))
 
-
+        console.log(res.data)
         toast.success(res.data.message);
+        setText("");
       }
     } catch (error) {
       console.log(error);
@@ -160,7 +161,11 @@ const Post = ({ post }) => {
               <FaRegHeart onClick={likeOrDislikeHandler} size={'25px'} className='cursor-pointer' />
           }
 
-          <MessageCircle onClick={() => setOpen(true)} className='cursor-pointer hover:text-gray-600' />
+          <MessageCircle onClick={() => {
+
+            dispatch(setSelectedPosts(post))
+            setOpen(true)
+          }} className='cursor-pointer hover:text-gray-600' />
           <Send className='cursor-pointer hover:text-gray-600' />
         </div>
         <Bookmark className='cursor-pointer hover text-gray-600' />
@@ -171,7 +176,11 @@ const Post = ({ post }) => {
         <span className='font-medium mr-2'>{post.author?.username}</span>
         {post.caption}
       </p>
-      <span onClick={() => setOpen(true)} className='cursor-pointer text-sm text-gray-500' >View all {comment.length} comments</span>
+      <span onClick={() => {
+
+        dispatch(setSelectedPosts(post))
+        setOpen(true)
+      }} className='cursor-pointer text-sm text-gray-500' >View all {comment.length} comments</span>
       <CommentDialogue open={open} setOpen={setOpen} />
       <div className='flex items-center justify-between'>
         <input
@@ -182,7 +191,7 @@ const Post = ({ post }) => {
           className='outline-none text-sm w-full'
         />
         {
-          text && <span className='text-[#259eee] font-bold' onClick={commentPostHandler}>Post</span>
+          text && <span className='text-[#259eee] font-bold cursor-pointer' onClick={commentPostHandler}>Post</span>
         }
 
       </div>
