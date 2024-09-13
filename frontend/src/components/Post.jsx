@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'sonner'
 import axios from 'axios'
 import { setPosts, setSelectedPosts } from '@/redux/postSlice'
+import { Badge } from './ui/badge'
 const Post = ({ post }) => {
 
   const [text, setText] = useState("");
@@ -36,6 +37,7 @@ const Post = ({ post }) => {
       const res = await axios.delete(`http://localhost:8080/post/delete/${post._id}`, { withCredentials: true });
       if (res.data.success) {
         const updatedPosts = posts.filter((postItem) => postItem?._id !== post?._id)
+
         dispatch(setPosts(updatedPosts.likes.length))
         toast.success(res.data.message);
       }
@@ -133,7 +135,10 @@ const Post = ({ post }) => {
             <AvatarImage src={post.author?.profilePicture} alt="post_image" />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
-          <h1>{post.author?.username}</h1>
+          <div className='flex items-center gap-3' >
+            <h1>{post.author?.username}</h1>
+            {user?._id === post.author._id && <Badge variant="secondry">Author</Badge>}
+          </div>
         </div>
         <Dialog >
           <DialogTrigger asChild>
