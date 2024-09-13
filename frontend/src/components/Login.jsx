@@ -25,7 +25,7 @@ const Login = () => {
 
     const loginHandler = async (e) => {
         e.preventDefault();
-        console.log(input)
+        // console.log(input)
         try {
             setLoding(true)
             const res = await axios.post("http://localhost:8080/user/login", input, {

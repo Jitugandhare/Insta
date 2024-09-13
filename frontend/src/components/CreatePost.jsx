@@ -60,6 +60,10 @@ const CreatePost = ({ open, setOpen }) => {
         }
     }
 
+
+
+
+
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogContent onInteractOutside={() => setOpen(false)}>

@@ -16,4 +16,4 @@ postRouter.post("/:id/bookmark",isAuthenticated,bookmarkPost);
 
 
 
-module.exports=postRouter
+module.exports=postRouter;
