@@ -19,6 +19,8 @@ const Post = ({ post }) => {
   const [liked, setLiked] = useState(post.likes.includes(user?._id) || false)
   const [postLike, setPostLike] = useState(post.likes.length);
   const dispatch = useDispatch();
+  const [comment, setComment] = useState(post.comments)
+
 
   const changeEventHandler = (e) => {
     const inputText = e.target.value;
@@ -76,6 +78,52 @@ const Post = ({ post }) => {
   };
 
 
+
+
+  const commentPostHandler = async () => {
+    try {
+      const res = await axios.post(`http://localhost:8080/post/${post._id}/comment`,
+        { text },
+        {
+          headers: {
+            'Content-Type': "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+
+      if (res.data.success) {
+        const updatedComment = [...comment, res.data.message];
+        setComment(updatedComment);
+
+        const updatedCommentdata = posts.map(p =>
+          p._id === post._id ? { ...p, comments: updatedComment } : p
+        )
+
+        dispatch(setPosts(updatedCommentdata))
+
+
+        toast.success(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+
+      if (error.response && error.response.data && error.response.data.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error('An error occurred');
+      }
+    }
+  };
+
+
+
+
+
+
+
+
+
   return (
     <div className='my-8 w-full max-w-sm mx-auto'>
       <div className='flex items-center justify-between'>
@@ -123,7 +171,7 @@ const Post = ({ post }) => {
         <span className='font-medium mr-2'>{post.author?.username}</span>
         {post.caption}
       </p>
-      <span onClick={() => setOpen(true)} className='cursor-pointer text-sm text-gray-500' >View all 10 comments</span>
+      <span onClick={() => setOpen(true)} className='cursor-pointer text-sm text-gray-500' >View all {comment.length} comments</span>
       <CommentDialogue open={open} setOpen={setOpen} />
       <div className='flex items-center justify-between'>
         <input
@@ -134,7 +182,7 @@ const Post = ({ post }) => {
           className='outline-none text-sm w-full'
         />
         {
-          text && <span className='text-[#259eee] font-bold' >Post</span>
+          text && <span className='text-[#259eee] font-bold' onClick={commentPostHandler}>Post</span>
         }
 
       </div>
