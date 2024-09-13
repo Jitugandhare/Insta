@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Dialog, DialogClose, DialogContent, DialogTrigger } from './ui/dialog'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Link } from 'react-router-dom'
@@ -13,12 +13,24 @@ import { setPosts } from '@/redux/postSlice'
 const CommentDialogue = ({ open, setOpen }) => {
 
     const [text, setText] = useState("");
+    const [comment, setComment] = useState([]);
     const { selectedPost, posts } = useSelector(store => store.post);
     const dispatch = useDispatch();
 
+
+    useEffect(() => {
+        if (selectedPost) {
+            setComment(selectedPost.comments)
+        }
+    }, [selectedPost])
+
     const changeEventHandler = (e) => {
         const inputText = e.target.value;
-        setText(inputText.trim() ? inputText : "");
+        if (inputText.trim()) {
+            setText(inputText)
+        } else {
+            setText("");
+        }
     };
 
     const sendMessageHandler = async () => {
@@ -35,13 +47,11 @@ const CommentDialogue = ({ open, setOpen }) => {
             );
 
             if (res.data.success) {
-                const updatedComment = [...selectedPost.comments, res.data.comment];
-                const updatedCommentData = posts.map(p =>
-                    p._id === selectedPost._id ? { ...p, comments: updatedComment } : p
-                );
+                const updatedCommentData = [...comment, res.data.comment];
+                setComment(updatedCommentData);
 
-                dispatch(setPosts(updatedCommentData));
-
+                const updatedPostData = posts.map(p => p._id === selectedPost._id ? { ...p, comments: updatedCommentData } : p)
+                dispatch(setPosts(updatedPostData))
                 toast.success(res.data.message);
                 setText("");
             }
@@ -57,7 +67,7 @@ const CommentDialogue = ({ open, setOpen }) => {
     };
     return (
         <Dialog open={open}>
-            <DialogContent onInteractOutside={() => setOpen(false)} className="max-w6xl p-0 flex flex-col" >
+            <DialogContent onInteractOutside={() => setOpen(false)} className="max-w-6xl p-0 flex flex-col" >
                 <div className='flex flex-1'>
                     <div className='w-1/2' >
                         <img
