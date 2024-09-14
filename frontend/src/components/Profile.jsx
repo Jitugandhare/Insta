@@ -12,7 +12,7 @@ const Profile = () => {
   const userId = params.id;
   const [activeTab, setActiveTab] = useState('posts')
   const { userProfile,user } = useSelector(store => store.auth);
-  console.log(userProfile)
+ 
   useGetUserProfile(userId)
   const isLoggedUserProfile = user?._id===userProfile?._id;
   const isFollowing = false;

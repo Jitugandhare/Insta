@@ -18,7 +18,7 @@ const EditProfile = () => {
     const [input, setInput] = useState({
         profilePhoto: user?.profilePicture,
         bio: user?.bio,
-        gender: user?.gender,  // Corrected gender state
+        gender: user?.gender,  
     });
 
     const navigate = useNavigate();
@@ -41,6 +41,7 @@ const EditProfile = () => {
         if (input.profilePhoto && typeof input.profilePhoto !== 'string') {
             formData.append('profilePhoto', input.profilePhoto);
         }
+       
 
         try {
             setLoading(true);
@@ -62,6 +63,7 @@ const EditProfile = () => {
                 dispatch(setAuthUser(updatedUserData));
                 navigate(`/profile/${user?._id}`);
                 toast.success(res.data.message);
+                
             }
         } catch (error) {
             console.error(error);
