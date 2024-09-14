@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import useGetUserProfile from '@/hooks/useGetUserProfile';
 import { useSelector } from 'react-redux';
 import { Button } from './ui/button';
@@ -11,10 +11,10 @@ const Profile = () => {
   const params = useParams();
   const userId = params.id;
   const [activeTab, setActiveTab] = useState('posts')
-  const { userProfile } = useSelector(store => store.auth);
+  const { userProfile,user } = useSelector(store => store.auth);
   console.log(userProfile)
   useGetUserProfile(userId)
-  const isLoggedUserProfile = true;
+  const isLoggedUserProfile = user?._id===userProfile?._id;
   const isFollowing = false;
 
   const handleTabChange = (tab) => {
@@ -44,7 +44,9 @@ const Profile = () => {
                 {
                   isLoggedUserProfile ? (
                     <>
-                      <Button variant="secondary" className="hover:bg-gray-200 h-8">Edit Profile</Button>
+                      <Link to="/account/edit">
+                        <Button variant="secondary" className="hover:bg-gray-200 h-8">Edit Profile</Button>
+                      </Link>
                       <Button variant="secondary" className="hover:bg-gray-200 h-8">View Archives</Button>
                       <Button variant="secondary" className="hover:bg-gray-200 h-8">Ad Tools</Button>
                     </>

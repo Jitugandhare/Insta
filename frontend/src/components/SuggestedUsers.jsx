@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 
 const SuggestedUsers = () => {
-    const { suggestedUsers = [] } = useSelector(store => store.auth); // Default to an empty array
+    const { suggestedUsers = [] } = useSelector(store => store.auth); 
 
     return (
         <div className='my-10'>

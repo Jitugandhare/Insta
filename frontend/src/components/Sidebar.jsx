@@ -57,6 +57,8 @@ const Sidebar = () => {
             createPostHandler();
         }else if(textType==="Profile"){
             navigate(`/profile/${user?._id}`)
+        }else if(textType==="Home"){
+            navigate("/")
         }
 
     }
