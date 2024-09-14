@@ -41,7 +41,7 @@ const EditProfile = () => {
         if (input.profilePhoto && typeof input.profilePhoto !== 'string') {
             formData.append('profilePhoto', input.profilePhoto);
         }
-       
+       console.log(input.profilePhoto)
 
         try {
             setLoading(true);
