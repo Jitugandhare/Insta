@@ -55,6 +55,8 @@ const Sidebar = () => {
             logOutHandler();
         } else if (textType === "Create") {
             createPostHandler();
+        }else if(textType==="Profile"){
+            navigate(`/profile/${user?._id}`)
         }
 
     }

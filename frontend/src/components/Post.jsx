@@ -7,10 +7,11 @@ import { FaHeart, FaRegHeart } from "react-icons/fa";
 import CommentDialogue from './CommentDialogue'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { toast } from 'sonner'
+
 import axios from 'axios'
 import { setPosts, setSelectedPosts } from '@/redux/postSlice'
 import { Badge } from './ui/badge'
+import { toast } from 'sonner'
 const Post = ({ post }) => {
 
   const [text, setText] = useState("");
@@ -38,12 +39,12 @@ const Post = ({ post }) => {
       if (res.data.success) {
         const updatedPosts = posts.filter((postItem) => postItem?._id !== post?._id)
 
-        dispatch(setPosts(updatedPosts.likes.length))
+        dispatch(setPosts(updatedPosts));
         toast.success(res.data.message);
       }
     } catch (error) {
       console.log(error);
-      toast(error.response.data.message);
+      toast.error(error.response.data.message);
     }
   }
 
@@ -75,7 +76,7 @@ const Post = ({ post }) => {
       }
     } catch (error) {
       console.log(error);
-      toast(error.response.data.message);
+      toast.error(error.response.data.message);
     }
   };
 
