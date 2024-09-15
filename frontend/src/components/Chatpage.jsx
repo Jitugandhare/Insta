@@ -4,6 +4,8 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { setSelectedUser } from '@/redux/authSlice';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
+import { MessageCircle } from 'lucide-react';
+import Messages from './Messages';
 
 const Chatpage = () => {
     const { user, suggestedUsers, selectedUser } = useSelector(store => store.auth);
@@ -16,7 +18,7 @@ const Chatpage = () => {
             <section className="w-1/4 border-r border-gray-300 p-3">
                 <h1 className='font-bold mb-4 text-xl'>{user?.username}</h1>
                 <hr className='mb-4 border-gray-300' />
-                
+
                 <div className='overflow-y-auto h-[80vh]'>
                     {suggestedUsers?.length > 0 ? (
                         suggestedUsers.map((suggestedUser) => (
@@ -49,7 +51,7 @@ const Chatpage = () => {
                 <section className='flex-1 flex flex-col h-full'>
                     {/* Chat Header */}
                     <div className='flex items-center gap-3 p-4 border-b border-gray-300 bg-white sticky top-0 z-10'>
-                        <Avatar>
+                        <Avatar className="w-14 h-14">
                             <AvatarImage src={selectedUser?.profilePicture} alt="selected-user" />
                             <AvatarFallback>{selectedUser?.username?.charAt(0)}</AvatarFallback>
                         </Avatar>
@@ -57,23 +59,26 @@ const Chatpage = () => {
                     </div>
 
                     {/* Chat Messages Area (Placeholder) */}
-                    <div className="flex-1 overflow-y-auto p-4 bg-gray-50">
+                    {/* <div className="flex-1 overflow-y-auto p-4 bg-gray-50"> */}
                         {/* Display messages here */}
-                        <p>Messages with {selectedUser?.username} will be shown here...</p>
-                    </div>
+                        {/* <p>Messages with {selectedUser?.username} will be shown here...</p> */}
+                    {/* </div> */}
+
+                    <Messages selectedUser={selectedUser} />
 
                     {/* Chat Input */}
                     <div className='p-4 border-t border-gray-300 bg-white'>
-                        <form className='flex gap-2'>
+                        <div className='flex gap-2'>
                             <Input type="text" placeholder="Message..." className="flex-1 focus-visible:ring-transparent" />
                             <Button type="submit">Send</Button>
-                        </form>
+                        </div>
                     </div>
                 </section>
             ) : (
-                <section className='flex-1 flex items-center justify-center'>
+                <div className='flex-1 flex items-center justify-center'>
+                    <MessageCircle className='w-32 h-32 my-4' />
                     <h1 className="text-2xl">Select a user to start chatting</h1>
-                </section>
+                </div>
             )}
         </div>
     );
