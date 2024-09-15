@@ -19,10 +19,9 @@ const Chatpage = () => {
 
     const sendMessageHandler = async (receiverId) => {
         if (!textMessage.trim()) return;
-    
-        // Ensure messages is an array
+
         const validMessages = Array.isArray(messages) ? messages : [];
-    
+
         try {
             const res = await axios.post(
                 `http://localhost:8080/message/send/${receiverId}`,
@@ -34,7 +33,7 @@ const Chatpage = () => {
                     withCredentials: true,
                 }
             );
-    
+
             if (res.data.success) {
                 dispatch(setMessages([...validMessages, res.data.newMessage])); 
                 setTextMessage("");
@@ -44,7 +43,6 @@ const Chatpage = () => {
             toast.error(error?.response?.data?.message);
         }
     };
-    
 
     useEffect(() => {
         return () => {

@@ -6,13 +6,19 @@ import { useSelector } from 'react-redux';
 
 const Messages = ({ selectedUser }) => {
     const { messages } = useSelector((store) => store.chat);
+    const { user } = useSelector((store) => store.auth);
 
     if (!selectedUser) {
         return <div className="p-4 text-center">No user selected</div>;
     }
 
-    // Ensure messages is an array
-    const validMessages = Array.isArray(messages) ? messages : [];
+    // Filter messages that are either sent or received by the selected user
+    const validMessages = Array.isArray(messages)
+        ? messages.filter(
+              (msg) => (msg.senderId === user._id && msg.receiverId === selectedUser._id) ||
+                       (msg.senderId === selectedUser._id && msg.receiverId === user._id)
+          )
+        : [];
 
     return (
         <div className="overflow-y-auto flex-1 p-4">
@@ -36,8 +42,8 @@ const Messages = ({ selectedUser }) => {
             <div className="flex flex-col gap-3">
                 {validMessages.length > 0 ? (
                     validMessages.map((msg, index) => (
-                        <div className="flex" key={index}>
-                            <div>{msg.message}</div>
+                        <div className={`flex ${msg.senderId === user._id ? 'justify-end' : 'justify-start'}`} key={index}>
+                            <div className="bg-gray-200 p-2 rounded">{msg.message}</div>
                         </div>
                     ))
                 ) : (
