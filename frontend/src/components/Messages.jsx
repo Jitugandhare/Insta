@@ -43,7 +43,7 @@ const Messages = ({ selectedUser }) => {
                 {validMessages.length > 0 ? (
                     validMessages.map((msg, index) => (
                         <div className={`flex ${msg.senderId === user._id ? 'justify-end' : 'justify-start'}`} key={index}>
-                            <div className="bg-gray-200 p-2 rounded">{msg.message}</div>
+                            <div className="bg-gray-100 p-2 rounded">{msg.message}</div>
                         </div>
                     ))
                 ) : (

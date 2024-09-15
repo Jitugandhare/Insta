@@ -122,7 +122,7 @@ const Chatpage = () => {
                                 placeholder="Message..."
                                 className="flex-1 focus-visible:ring-transparent"
                             />
-                            <Button type="submit" onClick={() => sendMessageHandler(selectedUser?._id)}>
+                            <Button type="submit" onClick={() => sendMessageHandler(selectedUser?._id)} className="rounded">
                                 Send
                             </Button>
                         </div>
