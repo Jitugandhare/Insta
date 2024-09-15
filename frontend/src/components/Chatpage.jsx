@@ -32,12 +32,12 @@ const Chatpage = () => {
             );
 
             if (res.data.success) {
-                dispatch(setMessages([...messages, res.data.newMessage]));
+                dispatch(setMessages([...messages, res.data.newMessage]))
                 setTextMessage(""); 
             }
         } catch (error) {
             console.log(error);
-            toast.error(error?.response?.data?.message || "An error occurred while sending the message.");
+            toast.error(error?.response?.data?.message);
         }
     };
 
@@ -45,9 +45,9 @@ const Chatpage = () => {
         return () => {
             dispatch(setSelectedUser(null));
         };
-    }, [dispatch]);
+    }, []);
 
-    // Handler to send message on "Enter" key
+   
     const handleKeyDown = (e) => {
         if (e.key === "Enter") {
             sendMessageHandler(selectedUser?._id);

@@ -2,8 +2,13 @@ import React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Link } from 'react-router-dom';
 import { Button } from './ui/button';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Messages = ({ selectedUser }) => {
+    const { messages } = useSelector((store) => store.chat);
+    const dispatch = useDispatch();
+
+
     if (!selectedUser) {
         return <div className="p-4 text-center">No user selected</div>;
     }
@@ -25,11 +30,11 @@ const Messages = ({ selectedUser }) => {
             </div>
             <div className='flex flex-col gap-3'>
                 {
-                    [1, 2, 3, 4].map((msg) => {
+                    messages && messages.map((msg) => {
                         return (
-                            <div  className={`flex`}>
+                            <div className={`flex`}>
                                 <div>
-{msg}
+                                    {msg.message}
                                 </div>
                             </div>
                         );
