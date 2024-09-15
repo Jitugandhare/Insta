@@ -97,7 +97,7 @@ const login = async (req, res) => {
             _id: user.id,
             username: user.username,
             email: user.email,
-            profilepicture: user.profilepicture,
+            profilePicture: user.profilePicture,
             bio: user.bio,
             followers: user.followers,
             following: user.following,
@@ -105,7 +105,7 @@ const login = async (req, res) => {
         }
 
 
-        
+
         return res.cookie("token", token, { httpOnly: true, sameSite: 'strict', maxAge: 1 * 24 * 60 * 60 * 1000 }).json({
             message: `Welcome back ${user.username}`,
             success: true,
@@ -139,7 +139,7 @@ const getProfile = async (req, res) => {
 
     try {
         const userId = req.params.id;
-        let user = await User.findById(userId).select("-password");
+        let user = await User.findById(userId).populate({ path: 'posts', createdAt: -1 }).populate('bookmarks');
         return res.status(200).json({
             user,
             success: true,
@@ -157,6 +157,8 @@ const editProfile = async (req, res) => {
         const { bio, gender } = req.body;
         const profilePicture = req.file;
         let cloudResponse;
+        
+
 
         if (profilePicture) {
             const fileUri = getDataUri(profilePicture);

@@ -1,5 +1,4 @@
 import { setSuggestedUsers } from "@/redux/authSlice";
-import { setPosts } from "@/redux/postSlice";
 import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -11,8 +10,7 @@ const useGetSuggestedUsers = () => {
         const fetchSuggestedUsers = async () => {
             try {
                 const res = await axios.get('http://localhost:8080/user/suggested', { withCredentials: true });
-                if (res.data.success) { 
-                    // console.log(res.data.posts);
+                if (res.data.success) {
                     dispatch(setSuggestedUsers(res.data.users));
                 }
             } catch (error) {

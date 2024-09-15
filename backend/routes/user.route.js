@@ -10,7 +10,7 @@ userRoute.post("/login", login);
 userRoute.get("/logout", logout)
 
 userRoute.get("/:id/profile", isAuthenticated, getProfile);
-userRoute.post("/profile/edit", isAuthenticated, upload.single("profilePicture"), editProfile);
+userRoute.post('/profile/edit', isAuthenticated, upload.single('profilePhoto'), editProfile);
 userRoute.get("/suggested", isAuthenticated, getSuggestedUsers);
 userRoute.post("/followersorunfollow/:id", isAuthenticated, followOrUnfollow);
 

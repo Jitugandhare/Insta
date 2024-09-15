@@ -11,7 +11,7 @@ const useGetAllPost = () => {
             try {
                 const res = await axios.get('http://localhost:8080/post/all', { withCredentials: true });
                 if (res.data.success) { 
-                    // console.log(res.data.posts);
+                    console.log(res.data.posts);
                     dispatch(setPosts(res.data.posts));
                 }
             } catch (error) {
@@ -22,3 +22,6 @@ const useGetAllPost = () => {
     }, []);
 };
 export default useGetAllPost;
+
+
+
