@@ -3,8 +3,10 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Link } from 'react-router-dom';
 import { Button } from './ui/button';
 import { useSelector } from 'react-redux';
+import useGetRTM from '@/hooks/useGetRTM';
 
 const Messages = ({ selectedUser }) => {
+    useGetRTM();
     const { messages } = useSelector((store) => store.chat);
     const { user } = useSelector((store) => store.auth);
 
@@ -33,7 +35,7 @@ const Messages = ({ selectedUser }) => {
                     </Avatar>
                     <span className="block text-lg font-medium">{selectedUser?.username}</span>
                     <Link to={`/profile/${selectedUser?._id}`}>
-                        <Button className="h-8 my-2" variant="secondary">
+                        <Button className="h-8 my-2 bg-gray-200 rounded" variant="secondary ">
                             View Profile
                         </Button>
                     </Link>
