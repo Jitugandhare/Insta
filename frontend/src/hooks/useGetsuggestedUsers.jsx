@@ -11,13 +11,13 @@ const useGetSuggestedUsers = () => {
             try {
                 const res = await axios.get('http://localhost:8080/user/suggested', { withCredentials: true });
                 if (res.data.success) {
-                    dispatch(setSuggestedUsers(res.data.users));
+                    dispatch(setSuggestedUsers(res.data.user));
                 }
             } catch (error) {
                 console.log(error);
             }
         }
         fetchSuggestedUsers();
-    }, []);
+    }, [dispatch]);
 };
 export default useGetSuggestedUsers;

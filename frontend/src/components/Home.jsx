@@ -4,10 +4,13 @@ import { Outlet } from 'react-router-dom'
 import RightSidebar from './RightSidebar'
 import useGetAllPost from '@/hooks/useGetAllPost'
 import useGetSuggestedUsers from '@/hooks/useGetsuggestedUsers'
+import SuggestedUsers from './SuggestedUsers'
+
 
 const Home = () => {
+  useGetSuggestedUsers();
   useGetAllPost();
-  useGetSuggestedUsers()
+
   return (
     <div className='flex'>
       <div className='flex-grow'>
@@ -15,6 +18,7 @@ const Home = () => {
         <Outlet />
       </div>
       <RightSidebar />
+    
 
     </div>
   )
