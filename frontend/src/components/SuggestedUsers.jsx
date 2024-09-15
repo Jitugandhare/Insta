@@ -5,7 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 
 const SuggestedUsers = () => {
     const { suggestedUsers = [] } = useSelector(store => store.auth);
-    console.log('Redux Suggested Users:', suggestedUsers);
+    // console.log('Redux Suggested Users:', suggestedUsers);
     return (
         <div className='my-10'>
             <div className='flex items-center justify-between text-sm my-5'>
