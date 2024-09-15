@@ -44,19 +44,19 @@ const Profile = () => {
                 {isLoggedUserProfile ? (
                   <>
                     <Link to="/account/edit">
-                      <Button variant="secondary" className="hover:bg-gray-200 h-8">Edit Profile</Button>
+                      <Button variant="secondary" className="hover:bg-gray-200 h-8 rounded">Edit Profile</Button>
                     </Link>
-                    <Button variant="secondary" className="hover:bg-gray-200 h-8">View Archives</Button>
-                    <Button variant="secondary" className="hover:bg-gray-200 h-8">Ad Tools</Button>
+                    <Button variant="secondary" className="hover:bg-gray-200 h-8 rounded">View Archives</Button>
+                    <Button variant="secondary" className="hover:bg-gray-200 h-8 rounded">Ad Tools</Button>
                   </>
                 ) : (
                   isFollowing ? (
                     <>
-                      <Button variant="secondary" className="bg-gray-300 hover:bg-gray-400 h-8 text-black">Unfollow</Button>
-                      <Button variant="secondary" className="bg-gray-300 hover:bg-gray-400 h-8 text-black">Message</Button>
+                      <Button variant="secondary" className="bg-gray-300 rounded hover:bg-gray-400 h-8 text-black">Unfollow</Button>
+                      <Button variant="secondary" className="bg-gray-300 rounded hover:bg-gray-400 h-8 text-black">Message</Button>
                     </>
                   ) : (
-                    <Button className="bg-[#0095F6] hover:bg-[#0775bf] h-8">Follow</Button>
+                    <Button className="bg-[#0095F6] rounded hover:bg-[#0775bf] h-8">Follow</Button>
                   )
                 )}
               </div>

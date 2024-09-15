@@ -48,20 +48,21 @@ const Chatpage = () => {
 
             {/* Chat section */}
             {selectedUser ? (
-                <section className='flex-1 flex flex-col h-full'>
+                <section className='flex-1 flex flex-col h-full justify-center'>
                     {/* Chat Header */}
                     <div className='flex items-center gap-3 p-4 border-b border-gray-300 bg-white sticky top-0 z-10'>
-                        <Avatar className="w-14 h-14">
+                        <Avatar className="w-14 h-14 flex items-center justify-center">
                             <AvatarImage src={selectedUser?.profilePicture} alt="selected-user" />
                             <AvatarFallback>{selectedUser?.username?.charAt(0)}</AvatarFallback>
                         </Avatar>
                         <span className='font-bold text-lg'>{selectedUser?.username}</span>
                     </div>
 
+
                     {/* Chat Messages Area (Placeholder) */}
                     {/* <div className="flex-1 overflow-y-auto p-4 bg-gray-50"> */}
-                        {/* Display messages here */}
-                        {/* <p>Messages with {selectedUser?.username} will be shown here...</p> */}
+                    {/* Display messages here */}
+                    {/* <p>Messages with {selectedUser?.username} will be shown here...</p> */}
                     {/* </div> */}
 
                     <Messages selectedUser={selectedUser} />

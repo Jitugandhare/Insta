@@ -5,11 +5,11 @@ const cookieParser = require("cookie-parser");
 const userRoute = require("./routes/user.route.js"); 
 const postRoute=require("./routes/post.route.js");
 const messageRoute=require("./routes/message.route.js")
-
+const {app,server} =require('./socket/socket.js')
 const dotenv = require("dotenv");
 dotenv.config();
 
-const app = express();
+
 
 app.use(express.json());
 app.use(cookieParser());
@@ -35,7 +35,7 @@ app.use("/post", postRoute);
 app.use("/message", messageRoute);
 
 
-app.listen(8080, async () => {
+server.listen(8080, async () => {
     try {
         await connection; 
         console.log("Connected to DB");
