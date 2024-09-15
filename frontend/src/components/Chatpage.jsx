@@ -9,8 +9,9 @@ import Messages from './Messages';
 
 const Chatpage = () => {
     const { user, suggestedUsers, selectedUser } = useSelector(store => store.auth);
+    const { onlineUser } = useSelector(store => store.chat);
+
     const dispatch = useDispatch();
-    const isOnline = true;  // This should ideally come from the user's actual online status
 
     return (
         <div className='flex ml-[18%] h-screen'>
@@ -21,25 +22,29 @@ const Chatpage = () => {
 
                 <div className='overflow-y-auto h-[80vh]'>
                     {suggestedUsers?.length > 0 ? (
-                        suggestedUsers.map((suggestedUser) => (
-                            <div
-                                key={suggestedUser._id}
-                                className="flex items-center mb-4 p-3 cursor-pointer hover:bg-gray-50"
-                                onClick={() => dispatch(setSelectedUser(suggestedUser))}
-                            >
-                                <Avatar>
-                                    <AvatarImage src={suggestedUser?.profilePicture} alt="suggested-user" />
-                                    <AvatarFallback>{suggestedUser?.username?.charAt(0)}</AvatarFallback>
-                                </Avatar>
+                        suggestedUsers.map((suggestedUser) => {
+                            const isOnline = onlineUser?.includes(suggestedUser?._id) ?? false;
 
-                                <div className="ml-4 flex flex-col">
-                                    <span className="font-bold">{suggestedUser?.username}</span>
-                                    <span className={`text-sm font-bold ${isOnline ? "text-green-600" : "text-red-600"}`}>
-                                        {isOnline ? "online" : "offline"}
-                                    </span>
+                            return (
+                                <div
+                                    key={suggestedUser._id}
+                                    className="flex items-center mb-4 p-3 cursor-pointer hover:bg-gray-50"
+                                    onClick={() => dispatch(setSelectedUser(suggestedUser))}
+                                >
+                                    <Avatar>
+                                        <AvatarImage src={suggestedUser?.profilePicture} alt="suggested-user" />
+                                        <AvatarFallback>{suggestedUser?.username?.charAt(0)}</AvatarFallback>
+                                    </Avatar>
+
+                                    <div className="ml-4 flex flex-col">
+                                        <span className="font-bold">{suggestedUser?.username}</span>
+                                        <span className={`text-sm font-bold ${isOnline ? "text-green-600" : "text-red-600"}`}>
+                                            {isOnline ? "online" : "offline"}
+                                        </span>
+                                    </div>
                                 </div>
-                            </div>
-                        ))
+                            );
+                        })
                     ) : (
                         <p>No suggested users found.</p>
                     )}
@@ -58,13 +63,7 @@ const Chatpage = () => {
                         <span className='font-bold text-lg'>{selectedUser?.username}</span>
                     </div>
 
-
-                    {/* Chat Messages Area (Placeholder) */}
-                    {/* <div className="flex-1 overflow-y-auto p-4 bg-gray-50"> */}
-                    {/* Display messages here */}
-                    {/* <p>Messages with {selectedUser?.username} will be shown here...</p> */}
-                    {/* </div> */}
-
+                    {/* Chat Messages Area */}
                     <Messages selectedUser={selectedUser} />
 
                     {/* Chat Input */}

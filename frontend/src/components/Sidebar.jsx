@@ -59,6 +59,8 @@ const Sidebar = () => {
             navigate(`/profile/${user?._id}`)
         }else if(textType==="Home"){
             navigate("/")
+        }else if(textType==="Messages"){
+            navigate("/chat")
         }
 
     }

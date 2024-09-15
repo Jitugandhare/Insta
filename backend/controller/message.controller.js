@@ -2,6 +2,7 @@ const express = require('express');
 
 const ConversationModel = require('../model/conversation.model.js');
 const MessageModel = require('../model/message.model.js');
+const { getReceiverSocketId } = require('../socket/socket.js');
 // for chatting
 const sendMessage = async (req, res) => {
     try {
@@ -31,7 +32,11 @@ const sendMessage = async (req, res) => {
 
         // implement socket io for real time chat
 
+        const receiverSocketId = getReceiverSocketId(receiverId);
 
+        if (receiverSocketId) {
+            io.to(receiverSocketId).emit('newMessage', newMessage)
+        }
         return res.status(201).json({
             newMessage,
             success: true

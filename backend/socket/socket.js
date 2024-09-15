@@ -16,6 +16,9 @@ const io = new Server(server, {
 
 const userSocketMap = {};  //this map stores socket id
 
+const getReceiverSocketId = (receiverId) => userSocketMap[receiverId]
+    
+
 
 io.on('connection', (socket) => {
     const userId = socket.handshake.query.userId;
@@ -38,5 +41,6 @@ io.on('connection', (socket) => {
 module.exports = {
     app,
     server,
-    io
+    io,
+    getReceiverSocketId
 };
