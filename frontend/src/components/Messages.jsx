@@ -8,10 +8,12 @@ const Messages = ({ selectedUser }) => {
     const { messages } = useSelector((store) => store.chat);
     const dispatch = useDispatch();
 
-
     if (!selectedUser) {
         return <div className="p-4 text-center">No user selected</div>;
     }
+
+    // Ensure messages is an array
+    const validMessages = Array.isArray(messages) ? messages : [];
 
     return (
         <div className='overflow-y-auto flex-1 p-4'>
@@ -26,23 +28,22 @@ const Messages = ({ selectedUser }) => {
                         <Button className="h-8 my-2" variant="secondary">View Profile</Button>
                     </Link>
                 </div>
-
             </div>
             <div className='flex flex-col gap-3'>
                 {
-                    messages && messages.map((msg) => {
-                        return (
-                            <div className={`flex`}>
-                                <div>
-                                    {msg.message}
-                                </div>
+                    validMessages.length > 0 ? (
+                        validMessages.map((msg, index) => (
+                            <div className={`flex`} key={index}>
+                                <div>{msg.message}</div>
                             </div>
-                        );
-                    })
+                        ))
+                    ) : (
+                        <div>No messages available</div>
+                    )
                 }
             </div>
         </div>
     );
-}
+};
 
 export default Messages;

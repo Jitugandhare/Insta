@@ -13,12 +13,12 @@ import { setMessages } from '@/redux/chatSlice';
 const Chatpage = () => {
     const [textMessage, setTextMessage] = useState("");
     const { user, suggestedUsers, selectedUser } = useSelector((store) => store.auth);
-    const { onlineUser } = useSelector((store) => store.chat);
-    const { messages } = useSelector((store) => store.chat);
+    const { onlineUser, messages } = useSelector((store) => store.chat);
+
     const dispatch = useDispatch();
 
     const sendMessageHandler = async (receiverId) => {
-        if (!textMessage.trim()) return; 
+        if (!textMessage.trim()) return;
         try {
             const res = await axios.post(
                 `http://localhost:8080/message/send/${receiverId}`,
@@ -33,7 +33,7 @@ const Chatpage = () => {
 
             if (res.data.success) {
                 dispatch(setMessages([...messages, res.data.newMessage]))
-                setTextMessage(""); 
+                setTextMessage("");
             }
         } catch (error) {
             console.log(error);
@@ -47,7 +47,7 @@ const Chatpage = () => {
         };
     }, []);
 
-   
+
     const handleKeyDown = (e) => {
         if (e.key === "Enter") {
             sendMessageHandler(selectedUser?._id);
