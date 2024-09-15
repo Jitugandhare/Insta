@@ -19,7 +19,7 @@ const sendMessage = async (req, res) => {
         if (!conversation) {
             conversation = await ConversationModel.create({
                 participants: [senderId, receiverId],
-                messages: [] // Initialize messages array
+                messages: [] 
             });
         }
 
