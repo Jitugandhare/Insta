@@ -4,7 +4,7 @@ const cloudinary = require('../utils/cloudinary.js');
 const Post = require("../model/post.model.js");
 const User = require("../model/user.model.js");
 const Comment = require("../model/comment.model.js");
-const { getReceiverSocketId } = require("../socket/socket.js");
+const { getReceiverSocketId ,io} = require("../socket/socket.js");
 
 const addNewPost = async (req, res) => {
     try {

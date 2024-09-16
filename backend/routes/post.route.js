@@ -10,9 +10,9 @@ postRouter.get("/userpost/all",isAuthenticated,getUserPost);
 postRouter.get("/:id/like",isAuthenticated,likePost);
 postRouter.get("/:id/dislike",isAuthenticated,dislikePost);
 postRouter.post("/:id/comment",isAuthenticated,addComment);
-postRouter.post("/:id/commet/all",isAuthenticated,getCommentsOfPost);
+postRouter.post("/:id/comment/all",isAuthenticated,getCommentsOfPost);
 postRouter.delete("/delete/:id",isAuthenticated,deletePost);
-postRouter.post("/:id/bookmark",isAuthenticated,bookmarkPost);
+postRouter.get("/:id/bookmark",isAuthenticated,bookmarkPost);
 
 
 

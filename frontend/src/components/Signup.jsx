@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Label } from './ui/label';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
@@ -6,8 +6,10 @@ import axios from 'axios';
 import { toast } from 'sonner';
 import { Link, useNavigate } from 'react-router-dom';
 import { Loader2 } from 'lucide-react';
+import { useSelector } from 'react-redux';
 
 const Signup = () => {
+    const { user } = useSelector(store => store.auth);
 
     const [input, setInput] = useState({
         username: "",
@@ -15,7 +17,7 @@ const Signup = () => {
         password: ""
     });
     const [loading, setLoding] = useState(false)
-    const navigate=useNavigate()
+    const navigate = useNavigate()
     const changeEventHandler = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value });
     }
@@ -32,7 +34,7 @@ const Signup = () => {
                 withCredentials: true
             });
             if (res.data.success) {
-               navigate("/login")
+                navigate("/login")
                 toast.success(res.data.message);
                 setInput({
                     username: "",
@@ -48,6 +50,11 @@ const Signup = () => {
             setLoding(false);
         }
     }
+    useEffect(() => {
+        if (user) {
+            navigate("/");
+        }
+    }, [])
 
 
     return (
@@ -102,7 +109,7 @@ const Signup = () => {
                     )
                 }
 
-                
+
                 <span>Already have an account? <Link to="/login" className='text-blue-600'>Login</Link></span>
             </form>
         </div>
