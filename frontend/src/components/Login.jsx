@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Label } from './ui/label';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
@@ -10,8 +10,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setAuthUser } from '@/redux/authSlice';
 
 const Login = () => {
-    
-    const {user}=useSelector(store=>store.auth)
+
+    const { user } = useSelector(store => store.auth)
 
     const [input, setInput] = useState({
 
@@ -20,14 +20,14 @@ const Login = () => {
     });
     const [loading, setLoding] = useState(false)
     const navigate = useNavigate();
-    const dispatch=useDispatch();
+    const dispatch = useDispatch();
     const changeEventHandler = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value });
     }
 
     const loginHandler = async (e) => {
         e.preventDefault();
-        // console.log(input)
+        console.log(input)
         try {
             setLoding(true)
             const res = await axios.post("http://localhost:8080/user/login", input, {
@@ -55,11 +55,11 @@ const Login = () => {
         }
     }
 
-    useEffect(()=>{
-        if(user){
+    useEffect(() => {
+        if (user) {
             navigate("/");
         }
-    },[])
+    }, [])
     return (
         <div className='flex items-center w-screen h-screen justify-center'>
             <form onSubmit={loginHandler} className='shadow-lg flex flex-col gap-5 p-8'>

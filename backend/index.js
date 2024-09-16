@@ -1,5 +1,5 @@
 const express = require("express");
-const connection = require("./utils/db");
+const connection = require("./utils/db.js");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const userRoute = require("./routes/user.route.js"); 

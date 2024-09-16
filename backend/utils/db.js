@@ -1,8 +1,9 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
-require("dotenv").config();
+const MONGO_URL = 'mongodb+srv://gandhareji10:H967lStG59Jl26NP@cluster0.bwokx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 
-const connection = mongoose.connect(process.env.MongoUrl)
+const connection = mongoose.connect(MONGO_URL);
 
-
-module.exports = connection
+connection
+  .then(() => console.log('MongoDB connection established successfully'))
+  .catch(err => console.log('Error connecting to MongoDB:', err))
