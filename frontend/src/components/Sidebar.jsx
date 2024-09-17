@@ -28,7 +28,7 @@ const Sidebar = () => {
 
         try {
 
-            const res = await axios.get("http://localhost:8080/user/logout", { withCredentials: true });
+            const res = await axios.get("https://intsa-backend.onrender.com/user/logout", { withCredentials: true });
             if (res.data.success) {
                 dispatch(setAuthUser(null))
                 dispatch(setSelectedPosts(null));

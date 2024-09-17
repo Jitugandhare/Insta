@@ -10,7 +10,7 @@ const useGetUserProfile = (userId) => {
     useEffect(() => {
         const fetchUserProfile = async () => {
             try {
-                const res = await axios.get(`http://localhost:8080/user/${userId}/profile`, { withCredentials: true });
+                const res = await axios.get(`https://intsa-backend.onrender.com/user/${userId}/profile`, { withCredentials: true });
                 if (res.data.success) { 
                     dispatch(setUserProfile(res.data.user));
                 }
