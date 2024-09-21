@@ -1,15 +1,15 @@
-const express = require('express');
+
 
 const ConversationModel = require('../model/conversation.model.js');
 const MessageModel = require('../model/message.model.js');
-const { getReceiverSocketId } = require('../socket/socket.js');
+const { getReceiverSocketId, io } = require('../socket/socket.js');
 // for chatting
 const sendMessage = async (req, res) => {
     try {
         const senderId = req.id;
         const receiverId = req.params.id;
         const { textMessage: message } = req.body;
-        
+
 
         let conversation = await ConversationModel.findOne({
             participants: { $all: [senderId, receiverId] }
@@ -18,8 +18,8 @@ const sendMessage = async (req, res) => {
         // If the conversation does not exist, create a new one
         if (!conversation) {
             conversation = await ConversationModel.create({
-                participants: [senderId, receiverId],
-               
+                participants: [senderId, receiverId]
+
             });
         }
 
@@ -31,8 +31,7 @@ const sendMessage = async (req, res) => {
         });
 
         // Ensure the messages array exists before pushing
-      
-     if(newMessage) conversation.messages.push(newMessage._id);
+        if (newMessage) conversation.messages.push(newMessage?._id);
 
 
         // Save conversation and new message
@@ -45,8 +44,8 @@ const sendMessage = async (req, res) => {
         }
 
         return res.status(201).json({
-            newMessage,
-            success: true
+            success: true,
+            newMessage
         });
 
     } catch (err) {
@@ -59,7 +58,7 @@ const sendMessage = async (req, res) => {
 
 const getMessage = async (req, res) => {
     try {
-        const senderId = req.body;
+        const senderId = req.id;
         const receiverId = req.params.id;
 
         const conversation = await ConversationModel.findOne({
