@@ -59,7 +59,7 @@ function App() {
       socketio = io("http://localhost:8080", {
         query: { userId: user._id },
         transports: ["websocket"],
-        reconnection: true, 
+        reconnection: true, // Automatically reconnect
       });
 
       dispatch(setSocket(socketio));
