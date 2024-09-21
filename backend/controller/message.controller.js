@@ -31,10 +31,9 @@ const sendMessage = async (req, res) => {
         });
 
         // Ensure the messages array exists before pushing
-        if (!conversation.messages) {
-            conversation.messages = [];
-        }
-        conversation.messages.push(newMessage?._id);
+      
+     if(newMessage) conversation.messages.push(newMessage._id);
+
 
         // Save conversation and new message
         await Promise.all([conversation.save(), newMessage.save()]);
