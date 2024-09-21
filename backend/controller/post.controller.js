@@ -182,6 +182,7 @@ const dislikePost = async (req, res) => {
                 userId: likeKrnewala,
                 userDetails: user,
                 postId,
+                message:"Your Post is disliked"
                
             }
             const postOwnerSocketId = getReceiverSocketId(postOwnerId);
