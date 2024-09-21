@@ -36,7 +36,7 @@ const CommentDialogue = ({ open, setOpen }) => {
     const sendMessageHandler = async () => {
         try {
             const res = await axios.post(
-                `https://intsa-backend.onrender.com/post/${selectedPost._id}/comment`,
+                `http://localhost:8080/post/${selectedPost._id}/comment`,
                 { text },
                 {
                     headers: {

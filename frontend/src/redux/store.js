@@ -31,6 +31,7 @@ const rootReducer = combineReducers({
     socketio:socketSlice,
     chat:chatSlice,
     realTimeNotification:rtnSlice,
+    
 })
 
 
