@@ -12,15 +12,15 @@ import { setMessages } from '@/redux/chatSlice';
 
 const Chatpage = () => {
     const [textMessage, setTextMessage] = useState("");
-    const { user, suggestedUsers, selectedUser } = useSelector((store) => store.auth);
-    const { onlineUser, messages } = useSelector((store) => store.chat);
+    const { user, suggestedUsers, selectedUser } = useSelector(store => store.auth);
+    const { onlineUser, messages } = useSelector(store => store.chat);
 
     const dispatch = useDispatch();
 
     const sendMessageHandler = async (receiverId) => {
-        if (!textMessage.trim()) return;
+        // if (!textMessage.trim()) return;
 
-        const validMessages = Array.isArray(messages) ? messages : [];
+        // const validMessages = Array.isArray(messages) ? messages : [];
 
         try {
             const res = await axios.post(
@@ -35,7 +35,7 @@ const Chatpage = () => {
             );
 
             if (res.data.success) {
-                dispatch(setMessages([...validMessages, res.data.newMessage])); 
+                dispatch(setMessages([...messages, res.data.newMessage]));
                 setTextMessage("");
             }
         } catch (error) {
@@ -60,13 +60,13 @@ const Chatpage = () => {
         <div className="flex ml-[18%] h-screen">
             {/* Sidebar for suggested users */}
             <section className="w-1/4 border-r border-gray-300 p-3">
-                <h1 className="font-bold mb-4 text-xl">{user?.username}</h1>
+                <h1 className="font-bold px-3 mb-4 text-xl">{user?.username}</h1>
                 <hr className="mb-4 border-gray-300" />
 
                 <div className="overflow-y-auto h-[80vh]">
                     {suggestedUsers?.length > 0 ? (
                         suggestedUsers.map((suggestedUser) => {
-                            const isOnline = onlineUser?.includes(suggestedUser?._id) ?? false;
+                            const isOnline = onlineUser?.includes(suggestedUser?._id);
 
                             return (
                                 <div
@@ -82,7 +82,7 @@ const Chatpage = () => {
                                     <div className="ml-4 flex flex-col">
                                         <span className="font-bold">{suggestedUser?.username}</span>
                                         <span
-                                            className={`text-sm font-bold ${isOnline ? "text-green-600" : "text-red-600"}`}
+                                            className={`text-xs font-bold ${isOnline ? "text-green-600" : "text-red-600"}`}
                                         >
                                             {isOnline ? "online" : "offline"}
                                         </span>

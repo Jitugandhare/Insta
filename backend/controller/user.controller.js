@@ -174,7 +174,7 @@ const editProfile = async (req, res) => {
         }
         if (bio) user.bio = bio;
         if (gender) user.gender = gender;
-        if (profilePicture) user.profilepicture = cloudResponse.secure_url;
+        if (profilePicture) user.profilePicture = cloudResponse.secure_url;
 
         await user.save();
 
