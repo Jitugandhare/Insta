@@ -27,7 +27,7 @@ const Signup = () => {
         console.log(input)
         try {
             setLoding(true)
-            const res = await axios.post("https://intsa-backend-1.onrender.com/user/register", input, {
+            const res = await axios.post("http://localhost:8080/user/register", input, {
                 headers: {
                     'Content-Type': 'application/json'
                 },

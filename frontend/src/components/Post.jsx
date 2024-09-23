@@ -35,7 +35,7 @@ const Post = ({ post }) => {
 
   const deletePostHandler = async () => {
     try {
-      const res = await axios.delete(`https://intsa-backend-1.onrender.com/post/delete/${post._id}`, { withCredentials: true });
+      const res = await axios.delete(`http://localhost:8080/post/delete/${post._id}`, { withCredentials: true });
       if (res.data.success) {
         const updatedPosts = posts.filter((postItem) => postItem?._id !== post?._id)
 
@@ -52,7 +52,7 @@ const Post = ({ post }) => {
   const likeOrDislikeHandler = async () => {
     try {
       const action = liked ? 'dislike' : 'like';
-      const res = await axios.get(`https://intsa-backend-1.onrender.com/post/${post._id}/${action}`, { withCredentials: true });
+      const res = await axios.get(`http://localhost:8080/post/${post._id}/${action}`, { withCredentials: true });
       if (res.data.success) {
         const updatedLikes = liked ? postLike - 1 : postLike + 1;
         setPostLike(updatedLikes);
@@ -85,7 +85,7 @@ const Post = ({ post }) => {
 
   const commentPostHandler = async () => {
     try {
-      const res = await axios.post(`https://intsa-backend-1.onrender.com/post/${post._id}/comment`,
+      const res = await axios.post(`http://localhost:8080/post/${post._id}/comment`,
         { text },
         {
           headers: {
@@ -125,7 +125,7 @@ const Post = ({ post }) => {
 
   const bookmarkHandler = async () => {
     try {
-      const res = await axios.get(`https://intsa-backend-1.onrender.com/post/${post?._id}/bookmark`, { withCredentials: true });
+      const res = await axios.get(`http://localhost:8080/post/${post?._id}/bookmark`, { withCredentials: true });
       if (res.data.success) {
         toast.success(res.data.message);
       }
