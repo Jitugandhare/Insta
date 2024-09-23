@@ -10,7 +10,7 @@ const useGetAllMessage = () => {
     useEffect(() => {
         const fetchAllMessage = async () => {
             try {
-                const res = await axios.get(`http://localhost:8080/message/all/${selectedUser?._id}`, { withCredentials: true });
+                const res = await axios.get(`https://intsa-backend-1.onrender.com/message/all/${selectedUser?._id}`, { withCredentials: true });
                 if (res.data.success) {  
                     dispatch(setMessages(res.data.messages));
                 }

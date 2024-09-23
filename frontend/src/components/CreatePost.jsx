@@ -29,7 +29,7 @@ const CreatePost = ({ open, setOpen }) => {
 
         try {
             setLoading(true);
-            const res = await axios.post("http://localhost:8080/post/addpost", formData, {
+            const res = await axios.post("https://intsa-backend-1.onrender.com/post/addpost", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data"
                 },

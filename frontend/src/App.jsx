@@ -56,7 +56,7 @@ function App() {
     let socketio;
 
     if (user) {
-      socketio = io("http://localhost:8080", {
+      socketio = io("https://intsa-backend-1.onrender.com", {
         query: { userId: user._id },
         transports: ["websocket"],
         reconnection: true, // Automatically reconnect

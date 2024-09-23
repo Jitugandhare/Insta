@@ -24,7 +24,7 @@ const Chatpage = () => {
 
         try {
             const res = await axios.post(
-                `http://localhost:8080/message/send/${receiverId}`,
+                `https://intsa-backend-1.onrender.com/message/send/${receiverId}`,
                 { textMessage },
                 {
                     headers: {

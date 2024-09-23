@@ -30,7 +30,7 @@ const Login = () => {
         console.log(input)
         try {
             setLoding(true)
-            const res = await axios.post("http://localhost:8080/user/login", input, {
+            const res = await axios.post("https://intsa-backend-1.onrender.com/user/login", input, {
                 headers: {
                     'Content-Type': 'application/json'
                 },
