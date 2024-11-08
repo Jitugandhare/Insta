@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drag and Drop Todo List</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Dynamic Drag and Drop Todo List</h1>
+
+    <!-- Form to Add New Task -->
+    <div class="controls">
+        <input type="text" id="new-task-input" placeholder="Enter new task" />
+        <select id="column-select">
+            <!-- Dynamically populated options for columns -->
+        </select>
+        <button id="add-task-btn">Add Task</button>
+    </div>
+
+    <!-- Dynamic container for the columns -->
+    <div id="board" class="container">
+        
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

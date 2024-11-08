@@ -18,9 +18,7 @@ const Chatpage = () => {
     const dispatch = useDispatch();
 
     const sendMessageHandler = async (receiverId) => {
-        // if (!textMessage.trim()) return;
-
-        // const validMessages = Array.isArray(messages) ? messages : [];
+        if (!textMessage.trim()) return;
 
         try {
             const res = await axios.post(
@@ -48,7 +46,7 @@ const Chatpage = () => {
         return () => {
             dispatch(setSelectedUser(null));
         };
-    }, []);
+    }, [dispatch]);
 
     const handleKeyDown = (e) => {
         if (e.key === "Enter") {
@@ -65,31 +63,25 @@ const Chatpage = () => {
 
                 <div className="overflow-y-auto h-[80vh]">
                     {suggestedUsers?.length > 0 ? (
-                        suggestedUsers.map((suggestedUser) => {
-                            const isOnline = onlineUser?.includes(suggestedUser?._id);
+                        suggestedUsers.map((suggestedUser) => (
+                            <div
+                                key={suggestedUser._id}
+                                className="flex items-center mb-4 p-3 cursor-pointer hover:bg-gray-50"
+                                onClick={() => dispatch(setSelectedUser(suggestedUser))}
+                            >
+                                <Avatar>
+                                    <AvatarImage src={suggestedUser?.profilePicture} alt="suggested-user" />
+                                    <AvatarFallback>{suggestedUser?.username?.charAt(0)}</AvatarFallback>
+                                </Avatar>
 
-                            return (
-                                <div
-                                    key={suggestedUser._id}
-                                    className="flex items-center mb-4 p-3 cursor-pointer hover:bg-gray-50"
-                                    onClick={() => dispatch(setSelectedUser(suggestedUser))}
-                                >
-                                    <Avatar>
-                                        <AvatarImage src={suggestedUser?.profilePicture} alt="suggested-user" />
-                                        <AvatarFallback>{suggestedUser?.username?.charAt(0)}</AvatarFallback>
-                                    </Avatar>
-
-                                    <div className="ml-4 flex flex-col">
-                                        <span className="font-bold">{suggestedUser?.username}</span>
-                                        <span
-                                            className={`text-xs font-bold ${isOnline ? "text-green-600" : "text-red-600"}`}
-                                        >
-                                            {isOnline ? "online" : "offline"}
-                                        </span>
-                                    </div>
+                                <div className="ml-4 flex flex-col">
+                                    <span className="font-bold">{suggestedUser?.username}</span>
+                                    <span className={`text-xs font-bold text-green-600`}>
+                                        online
+                                    </span>
                                 </div>
-                            );
-                        })
+                            </div>
+                        ))
                     ) : (
                         <p>No suggested users found.</p>
                     )}

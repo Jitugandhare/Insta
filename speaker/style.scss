@@ -1,0 +1,109 @@
+/* Base styles */
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  background-color: #f8f9fa;
+}
+
+.speaker {
+  text-align: center;
+  padding: 1rem;
+
+  &__title {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+
+  &__subtitle {
+    font-size: 1rem;
+    color: #666;
+  }
+
+  &__slider {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    padding: 1rem;
+    scroll-snap-type: x mandatory;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  &__card {
+    flex: 0 0 200px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    scroll-snap-align: center;
+
+    &:hover {
+      border-color: #007bff;
+    }
+
+    &-image {
+      width: 100%;
+      border-radius: 50%;
+    }
+
+    &-name,
+    &-role,
+    &-company {
+      margin: 0.5rem 0;
+    }
+  }
+
+  &__popover {
+    position: relative;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    width: 80%;
+    max-width: 600px;
+    margin: 0 auto;
+    transition: transform 0.3s ease;
+    transform: translateY(-10px);
+
+    &.hidden {
+      display: none;
+    }
+
+    &-content {
+      position: relative;
+      padding: 1rem;
+    }
+
+    &-name {
+      font-size: 1.5rem;
+    }
+
+    &-role,
+    &-company,
+    &-info {
+      font-size: 1rem;
+      margin: 0.5rem 0;
+    }
+
+    &-close-btn {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+  }
+}
