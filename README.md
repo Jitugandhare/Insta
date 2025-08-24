@@ -1,6 +1,11 @@
 # Insta-Fista Social Application
 
-This is a full-featured Indta-Fista built using the MERN stack (MongoDB, Express.js, React.js, Node.js), with Redux for state management, ShadCN UI for modern styling, and Socket.io for real-time features. The application replicates core Instagram functionalities such as user profiles, posts, comments, likes, followers, and real-time notifications.
+This is a full-featured Insta-Fista built using the MERN stack (MongoDB, Express.js, React.js, Node.js), with Redux for state management, ShadCN UI for modern styling, and Socket.io for real-time features. The application replicates core Instagram functionalities such as user profiles, posts, comments, likes, followers, and real-time notifications.
+
+## 🚀 Live Demo & Repository
+
+- **🌐 Live Application**: [https://new-jfuz.onrender.com/](https://new-jfuz.onrender.com/)
+- **📱 GitHub Repository**: [https://github.com/Jitugandhare/Insta](https://github.com/Jitugandhare/Insta)
 
 ## Table of Contents
 - [Features](#features)
@@ -21,7 +26,6 @@ This is a full-featured Indta-Fista built using the MERN stack (MongoDB, Express
 - **Follow/Unfollow**: Follow or unfollow other users, and see followers/following counts.
 - **Real-Time Notifications**: Get real-time notifications for likes, comments, and follows using Socket.io.
 - **Real-Time Chat**: Chat with other users in real time.
-.
 
 ## Tech Stack
 
@@ -45,12 +49,12 @@ This is a full-featured Indta-Fista built using the MERN stack (MongoDB, Express
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/Jitugandhare/insta-clone.git
+    git clone https://github.com/Jitugandhare/Insta.git
     ```
 
 2. Navigate to the project directory:
     ```bash
-    cd insta-clone
+    cd Insta
     ```
 
 3. Install dependencies for both client and server:
@@ -88,7 +92,7 @@ This is a full-featured Indta-Fista built using the MERN stack (MongoDB, Express
 - **Engage with Posts**: Like and comment on other users' posts in real-time.
 - **Follow Users**: Follow or unfollow users and stay updated with their content.
 - **Chat**: Send and receive messages in real-time.
- - **Direct Messaging**: Extend chat features to support one-on-one messaging.
+- **Direct Messaging**: Extend chat features to support one-on-one messaging.
 
 ## API Endpoints
 
@@ -97,8 +101,6 @@ Here are some key API endpoints used in the application:
 ### Authentication
 - `POST /auth/register`: Register a new user.
 - `POST /auth/login`: Log in a user and receive a JWT token.
-
-
 
 ### Posts
 - `POST /posts`: Create a new post.
@@ -119,7 +121,6 @@ Here are some key API endpoints used in the application:
 
 ## Future Enhancements
 
-
 - **Stories**: Allow users to post temporary stories similar to Instagram.
 - **Advanced Search**: Add filters for searching posts based on hashtags or keywords.
 - **User Analytics**: Add analytics to track user engagement.
@@ -132,5 +133,11 @@ Here are some key API endpoints used in the application:
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](Jitu gandhare) file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
+---
+
+### 👨‍💻 Developer
+**Jitu Gandhare**
+
+Feel free to explore the live application and contribute to the project!
