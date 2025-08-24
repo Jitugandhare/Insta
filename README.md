@@ -1,6 +1,6 @@
-# Instagram Clone Application
+# Insta-Fista Social Application
 
-This is a full-featured Instagram clone built using the MERN stack (MongoDB, Express.js, React.js, Node.js), with Redux for state management, ShadCN UI for modern styling, and Socket.io for real-time features. The application replicates core Instagram functionalities such as user profiles, posts, comments, likes, followers, and real-time notifications.
+This is a full-featured Indta-Fista built using the MERN stack (MongoDB, Express.js, React.js, Node.js), with Redux for state management, ShadCN UI for modern styling, and Socket.io for real-time features. The application replicates core Instagram functionalities such as user profiles, posts, comments, likes, followers, and real-time notifications.
 
 ## Table of Contents
 - [Features](#features)
